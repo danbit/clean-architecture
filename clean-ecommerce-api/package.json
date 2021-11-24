@@ -1,0 +1,35 @@
+{
+  "name": "clean-ecommerce-api",
+  "version": "1.0.0",
+  "description": "Clean Ecommerce API",
+  "main": "index.js",
+  "scripts": {
+    "tsc:init": "tsc --init",
+    "build": "tsc",
+    "test": "tsc && jest dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danbit/clean-code-and-clean-arch.git"
+  },
+  "keywords": [
+    "clean",
+    "code",
+    "ecommerce",
+    "api",
+    "nodejs"
+  ],
+  "author": "Danilo Bitencourt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danbit/clean-code-and-clean-arch/issues"
+  },
+  "homepage": "https://github.com/danbit/clean-code-and-clean-arch#readme",
+  "dependencies": {
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "jest": "^27.3.1"
+  }
+}
