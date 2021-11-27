@@ -1,6 +1,6 @@
+import { Customer } from '../../../domain/entity/Customer';
+import { Order } from '../../../domain/entity/Order';
 import { CreateOrder } from './CreateOrder'
-import { Order } from '../../entity/Order'
-import { Customer } from '../../entity/Customer';
 
 test("Should not create a order with invalid a customer document", function () {
     const customer = new Customer()
@@ -10,5 +10,6 @@ test("Should not create a order with invalid a customer document", function () {
     const createOrder = new CreateOrder()        
     expect(() => {
         createOrder.addNewOrder(order)
+        throw Error("teste")
     }).toThrow(Error);
 });
