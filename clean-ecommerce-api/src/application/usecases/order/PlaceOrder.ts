@@ -1,4 +1,5 @@
 import { Customer } from "../../../domain/entity/Customer";
+import { DiscountCoupon } from "../../../domain/entity/DiscountCoupon";
 import { Order } from "../../../domain/entity/Order";
 import { CPFValidator } from "../../../validation/validators/CPFValidator";
 import { CPFValidatorError } from "../../../validation/validators/CPFValidatorError";
@@ -6,23 +7,31 @@ import { CustomerNotFound } from "../../../validation/validators/CustomerNotFoun
 
 class PlaceOrder {
     private _cpfValidator!: CPFValidator
-    private _total!: number
+    private _discountCoupon?: DiscountCoupon
+    private _totalOrderCost!: number
 
-    constructor(cpfValidator: CPFValidator) {
+    constructor(cpfValidator: CPFValidator, discountCoupon?: DiscountCoupon) {
         this._cpfValidator = cpfValidator
+        this._discountCoupon = discountCoupon
     }
 
-    public get total() {
-        return this._total
+    public get totalOrderCost() {
+        return this._totalOrderCost
     }
 
-    createOrder(order: Order) {
+    createOrder(order: Order): Order {
         const { customer } = order
         if (!customer) {
             throw new CustomerNotFound()
         }
         this.validateCustomerDocument(customer)
-        this.calculateOrderTotal(order)
+        const orderTotal = order.calculateTotal()
+        this._totalOrderCost = orderTotal
+
+        this.applyDiscount()
+
+        console.log('saving order')
+        return order
     }
 
     validateCustomerDocument(customer: Customer) {
@@ -31,11 +40,10 @@ class PlaceOrder {
         }
     }
 
-    calculateOrderTotal(order: Order) {
-        const orderTotal = order.items.reduce((accumulator, currentValue) => {
-            return accumulator + (currentValue.quantity * currentValue.price);
-        }, 0);
-        this._total = orderTotal
+    applyDiscount() {
+        if (this._discountCoupon) {
+            this._totalOrderCost -= this._discountCoupon.calculateDiscount(this._totalOrderCost)
+        }
     }
 }
 

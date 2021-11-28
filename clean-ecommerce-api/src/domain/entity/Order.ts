@@ -18,10 +18,15 @@ class Order {
     }
 
     addItem(item: OrderItem) {
-        if(!this._items){
+        if (!this._items) {
             this._items = []
         }
         this._items.push(item)
+    }
+
+    calculateTotal(): number {
+        return this.items.reduce((accumulator, currentValue) =>
+            accumulator + (currentValue.quantity * currentValue.price), 0)
     }
 }
 
