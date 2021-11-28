@@ -3,6 +3,12 @@ class OrderItem {
     private _price!: number
     private _quantity!: number
 
+    constructor(description: string, price: number, quantity: number){
+        this._description = description
+        this._price = price
+        this._quantity = quantity
+    }
+
     public get description(): string {
         return this._description
     }
@@ -27,3 +33,5 @@ class OrderItem {
         this._quantity = quantity;
     }
 }
+
+export { OrderItem }

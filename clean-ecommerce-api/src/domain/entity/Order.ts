@@ -1,12 +1,12 @@
 import { Customer } from "./Customer"
+import { OrderItem } from "./OrderItem"
 
 class Order {
     private _customer!: Customer
     private _items!: Array<OrderItem>
 
-    constructor(customer: Customer, items: Array<OrderItem>) {
+    constructor(customer: Customer) {
         this._customer = customer
-        this._items = items
     }
 
     public get customer(): Customer {
@@ -15,6 +15,13 @@ class Order {
 
     public get items(): Array<OrderItem> {
         return this._items
+    }
+
+    addItem(item: OrderItem) {
+        if(!this._items){
+            this._items = []
+        }
+        this._items.push(item)
     }
 }
 
