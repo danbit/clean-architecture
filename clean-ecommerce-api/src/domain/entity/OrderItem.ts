@@ -1,5 +1,7 @@
+import { Item } from "./Item";
+
 class OrderItem {
-    constructor(readonly description: string, readonly price: number, readonly quantity: number) {
+    constructor(readonly item: Item, readonly quantity: number) {
     }
 }
 
