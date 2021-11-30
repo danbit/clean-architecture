@@ -1,12 +1,5 @@
 class DiscountCoupon {
-    private _percentOff!: number
-
-    constructor(percentOff: number) {
-        this._percentOff = percentOff
-    }
-
-    public get percentOff() {
-        return this._percentOff
+    constructor(readonly percentOff: number) {
     }
 
     calculateDiscount(totalOrderCost: number) {

@@ -2,15 +2,9 @@ import { Customer } from "./Customer"
 import { OrderItem } from "./OrderItem"
 
 class Order {
-    private _customer!: Customer
     private _items!: Array<OrderItem>
 
-    constructor(customer: Customer) {
-        this._customer = customer
-    }
-
-    public get customer(): Customer {
-        return this._customer
+    constructor(readonly customer: Customer) {
     }
 
     public get items(): Array<OrderItem> {

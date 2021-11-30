@@ -19,10 +19,6 @@ class CPFValidator {
         return this.hasLastCpfDigitsEqualsCheckDigits(newCpf, firstDigit, secondDigit)
     }
 
-    hasLastCpfDigitsEqualsCheckDigits(cpf: string, firstDigit: number, secondDigit: number): boolean {
-        return cpf.slice(1).slice(-2) == `${firstDigit}${secondDigit}`
-    }
-
     normalizeCpf(cpf: string) {
         return cpf.replace(/\D/g, '')
     }
@@ -31,6 +27,12 @@ class CPFValidator {
         return cpf.split("").every(c => c === cpf[0])
     }
 
+    retrieveArrayWithFirstNineDigitsFromCPF(cpf: string): Array<number> {
+        return cpf.split("")
+            .slice(0, CPFValidator.VALID_CPF_LENGHT - 2)
+            .map(digit => parseInt(digit))
+    }
+    
     calculateFirstCheckDigit(partialDigits: Array<number>): number {
         const clonedPartialDigits = [...partialDigits]
         const result = this.multipliesPartialDigits(clonedPartialDigits)
@@ -54,11 +56,9 @@ class CPFValidator {
         const restDivision = (total % 11)
         return restDivision < 2 ? 0 : 11 - restDivision;
     }
-
-    retrieveArrayWithFirstNineDigitsFromCPF(cpf: string): Array<number> {
-        return cpf.split("")
-            .slice(0, CPFValidator.VALID_CPF_LENGHT - 2)
-            .map(digit => parseInt(digit))
+        
+    hasLastCpfDigitsEqualsCheckDigits(cpf: string, firstDigit: number, secondDigit: number): boolean {
+        return cpf.slice(1).slice(-2) == `${firstDigit}${secondDigit}`
     }
 }
 

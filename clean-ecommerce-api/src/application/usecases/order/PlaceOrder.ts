@@ -6,13 +6,9 @@ import { CPFValidatorError } from "../../../validation/validators/CPFValidatorEr
 import { CustomerNotFound } from "../../../validation/validators/CustomerNotFound";
 
 class PlaceOrder {
-    private _cpfValidator!: CPFValidator
-    private _discountCoupon?: DiscountCoupon
     private _totalOrderCost!: number
 
-    constructor(cpfValidator: CPFValidator, discountCoupon?: DiscountCoupon) {
-        this._cpfValidator = cpfValidator
-        this._discountCoupon = discountCoupon
+    constructor(readonly cpfValidator: CPFValidator, readonly discountCoupon?: DiscountCoupon) {
     }
 
     public get totalOrderCost() {
@@ -35,14 +31,14 @@ class PlaceOrder {
     }
 
     validateCustomerDocument(customer: Customer) {
-        if (!this._cpfValidator.validate(customer.document)) {
+        if (!this.cpfValidator.validate(customer.document)) {
             throw new CPFValidatorError(customer.document)
         }
     }
 
     applyDiscount() {
-        if (this._discountCoupon) {
-            this._totalOrderCost -= this._discountCoupon.calculateDiscount(this._totalOrderCost)
+        if (this.discountCoupon) {
+            this._totalOrderCost -= this.discountCoupon.calculateDiscount(this._totalOrderCost)
         }
     }
 }
