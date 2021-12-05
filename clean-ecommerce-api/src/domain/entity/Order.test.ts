@@ -14,29 +14,29 @@ const addValidItems = (order: Order) => {
     order.addItem(new Item('Item C', 139.99, new Dimension(200, 100, 50)), 1)
 }
 
-test("should not create a order with invalid CPF", function () {
+test("should not create a order with invalid CPF", () => {
     expect(() => {
         new Order(new Cpf("00000000000"))
     }).toThrow(CPFValidatorError)
 })
 
-test("should create a order with 3 items", function () {
+test("should create a order with 3 items", () => {
     const order = new Order(new Cpf(VALID_DOCUMENT))
     addValidItems(order)
     expect(order.calculateTotal()).toBe(227.87)
 })
 
-test("should create a order with a discount coupon", function () {
+test("should create a order with a discount coupon", () => {
     const validExpirationDate = new Date()
-    validExpirationDate.setDate(validExpirationDate.getDate() + 7)   
+    validExpirationDate.setDate(validExpirationDate.getDate() + 7)
     const order = new Order(new Cpf(VALID_DOCUMENT), new DiscountCoupon("BF2021", 10.0, validExpirationDate))
     addValidItems(order)
     expect(order.calculateTotal()).toBe(205.083)
 })
 
-test("should not create a order with a expirated discount coupon", function () {
+test("should not create a order with a expirated discount coupon", () => {
     const expiredDate = new Date()
-    expiredDate.setDate(expiredDate.getDate() - 1)   
+    expiredDate.setDate(expiredDate.getDate() - 1)
     expect(() => {
         new Order(new Cpf(VALID_DOCUMENT), new DiscountCoupon("BF2021", 10.0, expiredDate))
     }).toThrow(ExpiratedDiscountCouponError)
