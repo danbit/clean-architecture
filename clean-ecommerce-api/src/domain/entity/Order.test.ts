@@ -1,8 +1,9 @@
-import { Cpf } from "../../validation/validators/Cpf";
-import { CPFValidatorError } from "../../validation/validators/CPFValidatorError";
-import { DiscountCoupon } from "./DiscountCoupon";
-import { Item } from "./Item";
-import { Order } from "./Order";
+import { CPFValidatorError } from "../../validation/error/CPFValidatorError"
+import { ExpiratedDiscountCouponError } from "../../validation/error/ExpiratedDiscountCouponError"
+import { Cpf } from "../../validation/validators/Cpf"
+import { DiscountCoupon } from "./DiscountCoupon"
+import { Item } from "./Item"
+import { Order } from "./Order"
 
 const VALID_DOCUMENT = "11144477735"
 
@@ -14,18 +15,29 @@ const addValidItems = (order: Order) => {
 
 test("should not create a order with invalid CPF", function () {
     expect(() => {
-        new Order(new Cpf("00000000000"));
-    }).toThrow(CPFValidatorError);
+        new Order(new Cpf("00000000000"))
+    }).toThrow(CPFValidatorError)
 })
 
 test("should create a order with 3 items", function () {
-    const order = new Order(new Cpf(VALID_DOCUMENT));
+    const order = new Order(new Cpf(VALID_DOCUMENT))
     addValidItems(order)
     expect(order.calculateTotal()).toBe(227.87)
 })
 
 test("should create a order with a discount coupon", function () {
-    const order = new Order(new Cpf(VALID_DOCUMENT), new DiscountCoupon(10.0));
+    const validExpirationDate = new Date()
+    validExpirationDate.setDate(validExpirationDate.getDate() + 7)   
+    const order = new Order(new Cpf(VALID_DOCUMENT), new DiscountCoupon("BF2021", 10.0, validExpirationDate))
     addValidItems(order)
     expect(order.calculateTotal()).toBe(205.083)
+})
+
+
+test("should not create a order with a expirated discount coupon", function () {
+    const expiredDate = new Date()
+    expiredDate.setDate(expiredDate.getDate() - 1)   
+    expect(() => {
+        new Order(new Cpf(VALID_DOCUMENT), new DiscountCoupon("BF2021", 10.0, expiredDate))
+    }).toThrow(ExpiratedDiscountCouponError)
 })

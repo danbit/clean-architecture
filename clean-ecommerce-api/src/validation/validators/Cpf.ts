@@ -1,4 +1,4 @@
-import { CPFValidatorError } from "./CPFValidatorError";
+import { CPFValidatorError } from "../error/CPFValidatorError";
 
 class Cpf {
     static readonly VALID_CPF_LENGHT = 11;
