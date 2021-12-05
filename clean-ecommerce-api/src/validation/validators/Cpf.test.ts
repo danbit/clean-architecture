@@ -1,5 +1,5 @@
+import { CPFValidatorError } from "../error/CPFValidatorError";
 import { Cpf } from "./Cpf";
-import { CPFValidatorError } from "./CPFValidatorError";
 
 test("should validate a valid document", function () {
     expect(() => {
