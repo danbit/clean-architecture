@@ -19,7 +19,7 @@ jobs:
         working-directory: ./clean-ecommerce-api 
         run: |
           npm install
-          npm build
+          npm run build
 
   test:
     runs-on: ubuntu-latest
@@ -32,4 +32,4 @@ jobs:
         working-directory: ./clean-ecommerce-api
         run: |
           npm install
-          npm test
+          npm run test
