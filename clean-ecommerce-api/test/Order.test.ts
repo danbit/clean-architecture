@@ -1,10 +1,10 @@
-import { CPFValidatorError } from "../../validation/error/CPFValidatorError"
-import { ExpiratedDiscountCouponError } from "../../validation/error/ExpiratedDiscountCouponError"
-import { Cpf } from "../../validation/validators/Cpf"
-import Dimension from "./Dimension"
-import { DiscountCoupon } from "./DiscountCoupon"
-import { Item } from "./Item"
-import { Order } from "./Order"
+import Dimension from "../src/domain/entity/Dimension"
+import { DiscountCoupon } from "../src/domain/entity/DiscountCoupon"
+import { Item } from "../src/domain/entity/Item"
+import { Order } from "../src/domain/entity/Order"
+import { CPFValidatorError } from "../src/validation/error/CPFValidatorError"
+import { ExpiratedDiscountCouponError } from "../src/validation/error/ExpiratedDiscountCouponError"
+import { Cpf } from "../src/validation/validators/Cpf"
 
 const VALID_DOCUMENT = "11144477735"
 

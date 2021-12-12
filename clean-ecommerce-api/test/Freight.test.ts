@@ -1,5 +1,5 @@
-import Dimension from "./Dimension"
-import Freight from "./Freight "
+import Dimension from "../src/domain/entity/Dimension"
+import Freight from "../src/domain/entity/Freight "
 
 const addFreightItems = (freight: Freight) => {
     freight.addItem(1, new Dimension(20, 15, 10))
