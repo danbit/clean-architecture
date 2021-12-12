@@ -1,32 +1,49 @@
 import { Cpf } from "../../validation/validators/Cpf"
+import DefaultFreightCalculator from "./DefaultFreightCalculator"
 import { DiscountCoupon } from "./DiscountCoupon"
+import FreightCalculator from "./FreightCalculator"
 import { Item } from "./Item"
 import { OrderItem } from "./OrderItem"
 
 class Order {
-    private _items!: Array<OrderItem>
+    private orderItems!: Array<OrderItem>
+    private freight: number;
+    cpf: Cpf
+    discountCoupon: DiscountCoupon | undefined;
 
-    constructor(readonly cpf: Cpf, readonly discountCoupon?: DiscountCoupon) {
+    constructor(cpf: string, readonly createdDate: Date = new Date(), readonly freightCalculator: FreightCalculator = new DefaultFreightCalculator()) {
+        this.cpf = new Cpf(cpf)
+        this.orderItems = []
+        this.freight = 0
     }
 
     public get items(): Array<OrderItem> {
-        return this._items
+        return this.orderItems
     }
 
     addItem(item: Item, quantity: number) {
-        if (!this._items) {
-            this._items = []
+        this.freight += this.freightCalculator.calculate(item) * quantity
+        this.orderItems.push(new OrderItem(item.id, item.price, quantity))
+    }
+
+    addDiscountCoupon(discountCoupon: DiscountCoupon) {
+        if (discountCoupon.isExpired(this.createdDate)) {
+            return
         }
-        this._items.push(new OrderItem(item, quantity))
+        this.discountCoupon = discountCoupon
     }
 
     calculateTotal(): number {
-        let total = this.items.reduce((accumulator, currentValue) =>
-            accumulator + (currentValue.quantity * currentValue.item.price), 0)
+        let total = this.orderItems.reduce((accumulator, currentValue) => accumulator + currentValue.getTotal(), 0)
         if (this.discountCoupon) {
             total -= this.discountCoupon.calculateDiscount(total)
         }
+        total += this.freight
         return total
+    }
+
+    getFreight() {
+        return this.freight
     }
 }
 

@@ -1,8 +1,10 @@
-import { Item } from "./Item";
-
 class OrderItem {
-    constructor(readonly item: Item, readonly quantity: number) {
+    constructor(readonly idItem: number, readonly price: number, readonly quantity: number) {
     }
+
+    getTotal () {
+		return this.price * this.quantity;
+	}
 }
 
 export { OrderItem }

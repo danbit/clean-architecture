@@ -1,19 +1,17 @@
-import { ExpiratedDiscountCouponError } from "../../validation/error/ExpiratedDiscountCouponError"
-
 class DiscountCoupon {
-    constructor(readonly code : string, readonly percentOff: number, readonly expirationDate : Date) {
-        if(this.isExpirated()){
-            throw new ExpiratedDiscountCouponError(code)
-        }
+    constructor(readonly code : string, readonly percentOff: number, readonly expireDate? : Date) {
     }
 
-    calculateDiscount(totalOrderCost: number) {        
+    calculateDiscount(totalOrderCost: number, today: Date = new Date()) {
+        if (this.isExpired(today)){
+            return 0
+        }
         return (totalOrderCost * this.percentOff) / 100
     }
 
-    isExpirated() : boolean {
-        console.log('this.expirationDate', this.expirationDate)
-        return this.expirationDate <= new Date() 
+    isExpired(today: Date = new Date()) : boolean {
+        if (!this.expireDate) return false;
+        return this.expireDate.getTime() < today.getTime() 
     }
 }
 
