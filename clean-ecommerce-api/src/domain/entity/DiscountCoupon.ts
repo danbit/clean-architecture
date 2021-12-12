@@ -1,4 +1,4 @@
-class DiscountCoupon {
+export default class DiscountCoupon {
     constructor(readonly code : string, readonly percentOff: number, readonly expireDate? : Date) {
     }
 
@@ -14,5 +14,3 @@ class DiscountCoupon {
         return this.expireDate.getTime() < today.getTime() 
     }
 }
-
-export { DiscountCoupon }

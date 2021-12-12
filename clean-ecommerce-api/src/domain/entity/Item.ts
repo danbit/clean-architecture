@@ -1,6 +1,6 @@
 import Dimension from "./Dimension";
 
-class Item {
+export default class Item {
     constructor(readonly id: number, readonly description: string, readonly price: number, readonly weight: number, readonly dimension?: Dimension) {
     }
 
@@ -21,5 +21,3 @@ class Item {
         return value / 100
     }
 }
-
-export { Item }

@@ -1,11 +1,11 @@
-import { Cpf } from "../../validation/validators/Cpf"
+import Cpf from "../../validation/validators/Cpf"
 import DefaultFreightCalculator from "./DefaultFreightCalculator"
-import { DiscountCoupon } from "./DiscountCoupon"
+import DiscountCoupon from "./DiscountCoupon"
 import FreightCalculator from "./FreightCalculator"
-import { Item } from "./Item"
-import { OrderItem } from "./OrderItem"
+import Item from "./Item"
+import OrderItem from "./OrderItem"
 
-class Order {
+export default class Order {
     private orderItems!: Array<OrderItem>
     private freight: number;
     cpf: Cpf
@@ -46,5 +46,3 @@ class Order {
         return this.freight
     }
 }
-
-export { Order }

@@ -1,6 +1,6 @@
 import { CPFValidatorError } from "../error/CPFValidatorError";
 
-class Cpf {
+export default class Cpf {
     static readonly VALID_CPF_LENGHT = 11;
     static readonly FACTOR = 2;
 
@@ -70,5 +70,3 @@ class Cpf {
         return cpf.slice(1).slice(-2) == `${firstDigit}${secondDigit}`
     }
 }
-
-export { Cpf }

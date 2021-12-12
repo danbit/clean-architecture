@@ -1,4 +1,4 @@
-import { DiscountCoupon } from "../../src/domain/entity/DiscountCoupon"
+import DiscountCoupon from "../../src/domain/entity/DiscountCoupon"
 
 test("Deve criar um cupom de desconto válido", function () {
 	const discountCoupon = new DiscountCoupon("VALE20", 20, new Date("2021-12-10"))

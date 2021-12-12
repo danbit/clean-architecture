@@ -1,46 +1,29 @@
-// import { Customer } from "../../../domain/entity/Customer";
-// import { DiscountCoupon } from "../../../domain/entity/DiscountCoupon";
-// import { Order } from "../../../domain/entity/Order";
-// import { Cpf } from "../../../validation/validators/Cpf";
-// import { CPFValidatorError } from "../../../validation/validators/CPFValidatorError";
-// import { CustomerNotFound } from "../../../validation/validators/CustomerNotFound";
+import Order from "../../../domain/entity/Order";
+import DiscountCouponRepository from "../../../domain/repository/CouponRepository";
+import ItemRepository from "../../../domain/repository/ItemRepository";
+import OrderRepository from "../../../domain/repository/OrderRepository";
+import PlaceOrderInput from "./PlaceOrderInput";
+import PlaceOrderOutput from "./PlaceOrderOutput";
 
-// class PlaceOrder {
-//     private _totalOrderCost!: number
+export default class PlaceOrder {
 
-//     constructor(readonly cpf: Cpf, readonly discountCoupon?: DiscountCoupon) {
-//     }
+    constructor(readonly itemRepository: ItemRepository, readonly orderRepository: OrderRepository, readonly discountCouponRepository: DiscountCouponRepository) {
+    }
 
-//     public get totalOrderCost() {
-//         return this._totalOrderCost
-//     }
-
-//     createOrder(order: Order): Order {
-//         const { customer } = order
-//         if (!customer) {
-//             throw new CustomerNotFound()
-//         }
-//         this.validateCustomerDocument(customer)
-//         const orderTotal = order.calculateTotal()
-//         this._totalOrderCost = orderTotal
-
-//         this.applyDiscount()
-
-//         console.log('saving order')
-//         return order
-//     }
-
-//     validateCustomerDocument(customer: Customer) {
-//         if (!this.cpf.validate(customer.document)) {
-//             throw new CPFValidatorError(customer.document)
-//         }
-//     }
-
-//     applyDiscount() {
-//         if (this.discountCoupon) {
-//             this._totalOrderCost -= this.discountCoupon.calculateDiscount(this._totalOrderCost)
-//         }
-//     }
-// }
-
-// export { PlaceOrder }
+    async execute(input: PlaceOrderInput): Promise<PlaceOrderOutput> {
+        const order = new Order(input.cpf, input.date);
+        for (const orderItem of input.orderItems) {
+            const item = await this.itemRepository.findById(orderItem.idItem);
+            if (!item) throw new Error("Item not found");
+            order.addItem(item, orderItem.quantity);
+        }
+        if (input.coupon) {
+            const coupon = await this.discountCouponRepository.findByCode(input.coupon);
+            if (coupon) order.addDiscountCoupon(coupon);
+        }
+        await this.orderRepository.save(order);
+        const total = order.calculateTotal();
+        const output = new PlaceOrderOutput(total);
+        return output;
+    }
+}

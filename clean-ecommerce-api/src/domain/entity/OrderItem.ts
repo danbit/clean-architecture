@@ -1,4 +1,4 @@
-class OrderItem {
+export default class OrderItem {
     constructor(readonly idItem: number, readonly price: number, readonly quantity: number) {
     }
 
@@ -6,5 +6,3 @@ class OrderItem {
 		return this.price * this.quantity;
 	}
 }
-
-export { OrderItem }

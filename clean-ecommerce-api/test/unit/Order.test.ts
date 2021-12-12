@@ -1,8 +1,8 @@
 import Dimension from "../../src/domain/entity/Dimension"
-import { DiscountCoupon } from "../../src/domain/entity/DiscountCoupon"
+import DiscountCoupon from "../../src/domain/entity/DiscountCoupon"
 import FixedFreightCalculator from "../../src/domain/entity/FixedFreightCalculator"
-import { Item } from "../../src/domain/entity/Item"
-import { Order } from "../../src/domain/entity/Order"
+import Item from "../../src/domain/entity/Item"
+import Order from "../../src/domain/entity/Order"
 import { CPFValidatorError } from "../../src/validation/error/CPFValidatorError"
 
 const VALID_DOCUMENT = "11144477735"

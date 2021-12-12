@@ -1,5 +1,5 @@
 import FreightCalculator from "./FreightCalculator";
-import { Item } from "./Item";
+import Item from "./Item";
 
 export default class DefaultFreightCalculator implements FreightCalculator {
     static readonly DEFAULT_DISTANCE_KM = 1000
