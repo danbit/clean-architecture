@@ -6,6 +6,7 @@ import Item from "./Item"
 import OrderItem from "./OrderItem"
 
 export default class Order {
+    private _id : number | undefined;
     private orderItems!: Array<OrderItem>
     private freight: number;
     cpf: Cpf
@@ -42,7 +43,27 @@ export default class Order {
         return total
     }
 
+    generateCode() : string {
+        if(!this._id) {
+            throw new Error('Order ID not found')
+        }
+
+        const year = this.createdDate.getFullYear()
+        const sequenceOrderWithZeros = this.padLeftZeros(this._id, 8)
+        return `${year}${sequenceOrderWithZeros}`
+    }
+    
+    public set id(id : number) {
+        this._id = id;
+    }    
+
     getFreight() {
         return this.freight
     }
+
+    // Create Utils?
+    private padLeftZeros(input: number, length : number) {
+        var zero = length - input.toString().length + 1;
+        return Array(+(zero > 0 && zero)).join("0") + input;
+      }
 }

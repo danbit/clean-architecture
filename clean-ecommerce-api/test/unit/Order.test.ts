@@ -33,7 +33,7 @@ test("should create a order with 3 items", () => {
 
 test("should create a order with 3 items and discount coupon", () => {
     const order = new Order(VALID_DOCUMENT)
-    addOrdemItemsWithouDimension(order)    
+    addOrdemItemsWithouDimension(order)
     order.addDiscountCoupon(new DiscountCoupon("BF2021", 10.0))
     expect(order.calculateTotal()).toBe(205.083)
 })
@@ -47,14 +47,27 @@ test("should not create a order with 3 items and expired discount coupon", () =>
 
 test("should create a order with 3 items and default freight calculator", () => {
     const order = new Order(VALID_DOCUMENT)
-    addOrderItems(order)    
+    addOrderItems(order)
     const freight = order.getFreight()
-	expect(freight).toBe(720)
+    expect(freight).toBe(720)
 })
 
 test("should create a order with 3 items and fixed freight calculator", () => {
     const order = new Order(VALID_DOCUMENT, new Date(), new FixedFreightCalculator())
-    addOrderItems(order)    
+    addOrderItems(order)
     const freight = order.getFreight()
-	expect(freight).toBe(130)
+    expect(freight).toBe(130)
+})
+
+test("should generate code order", () => {
+    const order = new Order(VALID_DOCUMENT, new Date("2021-12-10"))
+    order.id = 1
+    expect(order.generateCode()).toBe('202100000001')
+})
+
+test("should not generate code order without ID", () => {
+    const order = new Order(VALID_DOCUMENT, new Date("2021-12-10"))
+    expect(() => {
+        order.generateCode()
+    }).toThrow(Error)
 })
